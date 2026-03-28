@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow - QR A4</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .qr-sheet {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px 16px;
+    }
+
+    .qr-card {
+      width: min(100%, 794px);
+      min-height: 1123px;
+      background: #fff;
+      color: #111;
+      border-radius: 24px;
+      padding: 48px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .qr-image {
+      width: min(70vw, 340px);
+      height: min(70vw, 340px);
+      border-radius: 24px;
+      background: #f4f4f4;
+      object-fit: cover;
+    }
+
+    .qr-url {
+      word-break: break-word;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .qr-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .qr-sheet {
+        padding: 0;
+      }
+
+      .qr-card {
+        width: 210mm;
+        min-height: 297mm;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .qr-actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="qr-sheet">
+    <section class="qr-card">
+      <div class="eyebrow">Glow</div>
+      <h1 class="dash-title">Escanea para entrar al asistente digital</h1>
+      <p class="dash-copy">Accede a ofertas, sorteos y bases desde tu celular.</p>
+      <img class="qr-image" id="qr-image" alt="Codigo QR a panel cliente" />
+      <div class="box qr-url" id="qr-url"></div>
+      <div class="qr-actions">
+        <a class="btn" href="admin.html">Volver al admin</a>
+        <button class="btn primary" type="button" onclick="window.print()">Imprimir A4</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const targetUrl = `${window.location.origin}/cliente.html`;
+    const qrImage = document.getElementById("qr-image");
+    const qrUrl = document.getElementById("qr-url");
+
+    if (qrImage) {
+      qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=${encodeURIComponent(targetUrl)}`;
+    }
+
+    if (qrUrl) {
+      qrUrl.textContent = targetUrl;
+    }
+  </script>
+</body>
+</html>
