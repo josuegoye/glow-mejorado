@@ -149,20 +149,73 @@ function migrateLegacyData(parsed) {
   return cloneDefaultData();
 }
 
-function getStoredData() {
+const DB_LINK_KEY = "glowData_db_link";
+
+function getDatabaseUrl() {
+  return localStorage.getItem(DB_LINK_KEY) || "";
+}
+
+function setDatabaseUrl(url) {
+  localStorage.setItem(DB_LINK_KEY, (url || "").trim());
+}
+
+let currentAppData = null;
+
+async function initData() {
+  const dbUrl = getDatabaseUrl();
+  if (dbUrl) {
+    try {
+      const res = await fetch("http://localhost:3001/api/data", {
+        headers: { "x-database-url": dbUrl }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.data) {
+          currentAppData = syncCurrentContext(migrateLegacyData(json.data));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(currentAppData));
+          return;
+        }
+      }
+    } catch(e) {
+      console.error("Error fetching from remote database:", e);
+    }
+  }
+
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      return cloneDefaultData();
+      currentAppData = cloneDefaultData();
+    } else {
+      currentAppData = syncCurrentContext(migrateLegacyData(JSON.parse(raw)));
     }
-    return syncCurrentContext(migrateLegacyData(JSON.parse(raw)));
   } catch (_error) {
-    return cloneDefaultData();
+    currentAppData = cloneDefaultData();
   }
 }
 
+function getStoredData() {
+  if (!currentAppData) {
+    return cloneDefaultData();
+  }
+  return syncCurrentContext(JSON.parse(JSON.stringify(currentAppData)));
+}
+
 function setStoredData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(syncCurrentContext(data)));
+  const syncedData = syncCurrentContext(data);
+  currentAppData = JSON.parse(JSON.stringify(syncedData));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(syncedData));
+
+  const dbUrl = getDatabaseUrl();
+  if (dbUrl) {
+    fetch("http://localhost:3001/api/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-database-url": dbUrl
+      },
+      body: JSON.stringify({ data: syncedData })
+    }).catch(e => console.error("Error saving to remote database:", e));
+  }
 }
 
 function syncCurrentContext(data) {
@@ -903,8 +956,9 @@ function initBusinessPanel() {
   drawButton?.addEventListener("click", drawWinner);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   ensureImageViewer();
+  await initData();
   const data = getStoredData();
   setStoredData(data);
   updateClientSummaries();
@@ -914,7 +968,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initBusinessPanel();
 });
 
-window.addEventListener("storage", () => {
+window.addEventListener("storage", async () => {
+  await initData();
   updateClientSummaries();
   renderBusinessHeader();
   renderBusinessView();
@@ -928,3 +983,6 @@ window.selectRaffle = selectRaffle;
 window.openImageViewer = openImageViewer;
 window.openImageViewerZoomed = openImageViewerZoomed;
 window.closeImageViewer = closeImageViewer;
+window.setDatabaseUrl = setDatabaseUrl;
+window.getDatabaseUrl = getDatabaseUrl;
+window.initData = initData;
