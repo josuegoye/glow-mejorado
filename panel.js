@@ -149,36 +149,21 @@ function migrateLegacyData(parsed) {
   return cloneDefaultData();
 }
 
-const DB_LINK_KEY = "glowData_db_link";
-
-function getDatabaseUrl() {
-  return localStorage.getItem(DB_LINK_KEY) || "";
-}
-
-function setDatabaseUrl(url) {
-  localStorage.setItem(DB_LINK_KEY, (url || "").trim());
-}
-
 let currentAppData = null;
 
 async function initData() {
-  const dbUrl = getDatabaseUrl();
-  if (dbUrl) {
-    try {
-      const res = await fetch("http://localhost:3001/api/data", {
-        headers: { "x-database-url": dbUrl }
-      });
-      if (res.ok) {
-        const json = await res.json();
-        if (json.data) {
-          currentAppData = syncCurrentContext(migrateLegacyData(json.data));
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(currentAppData));
-          return;
-        }
+  try {
+    const res = await fetch("http://localhost:3001/api/data");
+    if (res.ok) {
+      const json = await res.json();
+      if (json.data) {
+        currentAppData = syncCurrentContext(migrateLegacyData(json.data));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentAppData));
+        return;
       }
-    } catch(e) {
-      console.error("Error fetching from remote database:", e);
     }
+  } catch(e) {
+    console.error("Error fetching from remote database:", e);
   }
 
   try {
@@ -205,17 +190,13 @@ function setStoredData(data) {
   currentAppData = JSON.parse(JSON.stringify(syncedData));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(syncedData));
 
-  const dbUrl = getDatabaseUrl();
-  if (dbUrl) {
-    fetch("http://localhost:3001/api/data", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-database-url": dbUrl
-      },
-      body: JSON.stringify({ data: syncedData })
-    }).catch(e => console.error("Error saving to remote database:", e));
-  }
+  fetch("http://localhost:3001/api/data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ data: syncedData })
+  }).catch(e => console.error("Error saving to remote database:", e));
 }
 
 function syncCurrentContext(data) {
@@ -983,6 +964,4 @@ window.selectRaffle = selectRaffle;
 window.openImageViewer = openImageViewer;
 window.openImageViewerZoomed = openImageViewerZoomed;
 window.closeImageViewer = closeImageViewer;
-window.setDatabaseUrl = setDatabaseUrl;
-window.getDatabaseUrl = getDatabaseUrl;
 window.initData = initData;

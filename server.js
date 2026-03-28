@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
@@ -34,9 +35,9 @@ const INIT_SQL = `
 `;
 
 app.get('/api/data', async (req, res) => {
-  const dbUrl = req.headers['x-database-url'];
+  const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) {
-    return res.status(400).json({ error: 'Missing x-database-url header' });
+    return res.status(500).json({ error: 'DATABASE_URL is not configured in .env' });
   }
 
   try {
@@ -56,9 +57,9 @@ app.get('/api/data', async (req, res) => {
 });
 
 app.post('/api/data', async (req, res) => {
-  const dbUrl = req.headers['x-database-url'];
+  const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) {
-    return res.status(400).json({ error: 'Missing x-database-url header' });
+    return res.status(500).json({ error: 'DATABASE_URL is not configured in .env' });
   }
 
   const { data } = req.body;

@@ -37,19 +37,6 @@
 
     <section class="panel-grid">
       <article class="panel-card panel-card-wide">
-        <h2>Configuración de Base de Datos</h2>
-        <p class="small" style="margin-bottom: 1rem;">Ingresa el link a tu base de datos PostgreSQL. Las acciones se guardarán de forma remota a través del backend local.</p>
-        <form class="stack-form" id="db-config-form">
-          <label class="field-label">
-            <span>Link de conexión (PostgreSQL URL)</span>
-            <input type="text" name="db_url" placeholder="postgresql://usuario:pass@host/db" />
-          </label>
-          <button class="btn primary" type="submit" style="margin-top: 0.5rem;">Guardar Conexión</button>
-          <div class="inline-message" id="db-config-success" hidden>Conexión guardada. Recargando...</div>
-        </form>
-      </article>
-
-      <article class="panel-card panel-card-wide">
         <h2>Negocio activo</h2>
         <div data-admin-business></div>
       </article>
@@ -131,17 +118,6 @@
 
       qrForm.addEventListener("input", syncQrPreview);
       syncQrPreview();
-    }
-    const dbForm = document.getElementById("db-config-form");
-    if (dbForm) {
-      dbForm.elements.db_url.value = window.getDatabaseUrl() || "";
-      dbForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        window.setDatabaseUrl(dbForm.elements.db_url.value);
-        const msg = document.getElementById("db-config-success");
-        if (msg) msg.hidden = false;
-        setTimeout(() => window.location.reload(), 1500);
-      });
     }
   </script>
 </body>
