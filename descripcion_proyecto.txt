@@ -1,0 +1,35 @@
+ASISTENTE CONECTADO
+
+Proyecto web con tres paneles conectados:
+
+1. PANEL CLIENTE
+Muestra ofertas del negocio, permite participar de sorteos y ver bases de forma simple y rapida.
+Pensado para que el cliente entre desde un QR, vea promociones activas y deje sus datos.
+
+2. PANEL NEGOCIO
+Permite cargar ofertas, crear sorteos, actualizar bases y gestionar el contenido visible para el cliente.
+El negocio administra su propia informacion desde una interfaz simple.
+
+3. PANEL ADMIN
+Permite supervisar el funcionamiento general, revisar contenido, visualizar configuraciones y centralizar el control del sistema.
+
+OBJETIVO
+Conectar negocio y cliente mediante una experiencia digital clara, moderna y facil de usar.
+Ideal para promociones, sorteos, campanas con QR y acciones comerciales en locales fisicos.
+
+FUNCIONES PRINCIPALES
+- Publicacion de ofertas
+- Participacion en sorteos
+- Visualizacion de bases
+- Panel de gestion para negocio
+- Panel de administracion
+- Acceso desde QR
+- Experiencia simple y adaptable
+
+USO
+El cliente escanea un QR o abre el enlace, entra al panel publico y accede a ofertas y sorteos.
+El negocio actualiza el contenido desde su panel.
+El administrador supervisa el sistema desde el panel admin.
+
+ESTADO
+Proyecto visual y funcional, preparado para evolucionar a versiones con base de datos, hosting, dominio propio e integracion con asistentes IA.

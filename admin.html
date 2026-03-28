@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow - Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="dashboard">
+    <header class="bar">
+      <div>
+        <div class="eyebrow">Glow</div>
+        <h1 class="dash-title">Panel Admin</h1>
+        <p class="dash-copy">Control simple de negocios, ofertas, participantes, bases y modulo para crear QR.</p>
+      </div>
+      <div class="bar-actions">
+        <a class="btn" href="cliente.html">Ver cliente</a>
+        <a class="btn" href="negocio.html">Ver negocio</a>
+      </div>
+    </header>
+
+    <section class="stats">
+      <article class="mini-card">
+        <span class="mini-label">Ofertas activas</span>
+        <strong data-admin-offers-count>2</strong>
+      </article>
+      <article class="mini-card">
+        <span class="mini-label">Participantes</span>
+        <strong data-admin-participants-count>0</strong>
+      </article>
+      <article class="mini-card">
+        <span class="mini-label">Canal</span>
+        <strong>Formulario</strong>
+      </article>
+    </section>
+
+    <section class="panel-grid">
+      <article class="panel-card panel-card-wide">
+        <h2>Negocio activo</h2>
+        <div data-admin-business></div>
+      </article>
+
+      <article class="panel-card panel-card-wide">
+        <h2>Ofertas</h2>
+        <div data-admin-offers></div>
+      </article>
+
+      <article class="panel-card">
+        <h2>Participantes</h2>
+        <div data-admin-participants></div>
+      </article>
+
+      <article class="panel-card">
+        <h2>Bases</h2>
+        <div class="box" data-admin-bases></div>
+      </article>
+
+      <article class="panel-card">
+        <h2>QR A4</h2>
+        <p class="small big-space">Abri la hoja imprimible para pegar en el local.</p>
+        <a class="btn primary" href="qr_a4.html">Abrir QR A4</a>
+      </article>
+
+      <article class="panel-card panel-card-wide">
+        <h2>Crear QR</h2>
+        <form class="stack-form" data-qr-form>
+          <label class="field-label">
+            <span>Titulo</span>
+            <input type="text" name="title" value="Escanea para entrar al asistente digital" />
+          </label>
+          <label class="field-label">
+            <span>Subtitulo</span>
+            <input type="text" name="subtitle" value="Hola, soy Glow asistente digital." />
+          </label>
+          <label class="field-label">
+            <span>Descripcion</span>
+            <textarea name="description" rows="4">Accede a ofertas, bases y participacion desde el celular.</textarea>
+          </label>
+          <label class="field-label">
+            <span>Destino</span>
+            <input type="text" name="target" value="Panel cliente" />
+          </label>
+        </form>
+      </article>
+
+      <article class="panel-card panel-card-wide">
+        <h2>Vista previa QR</h2>
+        <div class="qr-preview">
+          <div class="qr-preview-code">QR</div>
+          <div class="qr-preview-copy">
+            <strong data-qr-title>Escanea para entrar al asistente digital</strong>
+            <p data-qr-subtitle>Hola, soy Glow asistente digital.</p>
+            <div class="box" data-qr-description>Accede a ofertas, bases y participacion desde el celular.</div>
+            <div class="inline-target" data-qr-target>Destino: Panel cliente</div>
+            <a class="btn primary" href="qr_a4.html">Usar hoja A4</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="panel.js"></script>
+  <script>
+    const qrForm = document.querySelector("[data-qr-form]");
+    if (qrForm) {
+      const title = document.querySelector("[data-qr-title]");
+      const subtitle = document.querySelector("[data-qr-subtitle]");
+      const description = document.querySelector("[data-qr-description]");
+      const target = document.querySelector("[data-qr-target]");
+
+      const syncQrPreview = () => {
+        title.textContent = qrForm.elements.title.value || "";
+        subtitle.textContent = qrForm.elements.subtitle.value || "";
+        description.textContent = qrForm.elements.description.value || "";
+        target.textContent = `Destino: ${qrForm.elements.target.value || ""}`;
+      };
+
+      qrForm.addEventListener("input", syncQrPreview);
+      syncQrPreview();
+    }
+  </script>
+</body>
+</html>

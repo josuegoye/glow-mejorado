@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow - Negocio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="dashboard">
+    <header class="bar">
+      <div>
+        <div class="eyebrow">Glow</div>
+        <h1 class="dash-title" data-business-name>Panel Negocio</h1>
+        <p class="dash-copy" data-business-meta>Desde aca cargas ofertas, sorteos y bases para el panel cliente.</p>
+      </div>
+      <div class="bar-actions">
+        <a class="btn" href="cliente.html">Ver cliente</a>
+      </div>
+    </header>
+
+    <section class="panel-grid">
+      <article class="panel-card panel-card-wide">
+        <div class="section-head">
+          <h2>Negocio activo</h2>
+        </div>
+        <div class="list" data-business-summary></div>
+      </article>
+    </section>
+
+    <section class="stats">
+      <article class="mini-card">
+        <span class="mini-label">Ofertas</span>
+        <strong data-offers-count>2</strong>
+      </article>
+      <article class="mini-card">
+        <span class="mini-label">Sorteo</span>
+        <strong data-raffle-title>Activo</strong>
+      </article>
+      <article class="mini-card">
+        <span class="mini-label">Estado</span>
+        <strong data-status>Sincronizado</strong>
+      </article>
+    </section>
+
+    <section class="panel-grid">
+      <article class="panel-card">
+        <h2>Crear oferta</h2>
+        <form class="stack-form" data-offer-form>
+          <label class="field-label">
+            <span>Nombre</span>
+            <input type="text" name="name" placeholder="Ej: Combo Auricular + Funda" required />
+          </label>
+          <label class="field-label">
+            <span>Detalle</span>
+            <input type="text" name="note" placeholder="Ej: Stock limitado" required />
+          </label>
+          <label class="field-label">
+            <span>Precio</span>
+            <input type="text" name="price" placeholder="Ej: $29.900" required />
+          </label>
+          <label class="field-label">
+            <span>Imagen</span>
+            <input type="file" name="image" accept="image/*" />
+          </label>
+          <button class="btn primary" type="submit">Guardar oferta</button>
+        </form>
+        <div class="inline-message" data-offer-message hidden>Oferta guardada y visible en cliente.</div>
+      </article>
+
+      <article class="panel-card">
+        <h2>Ofertas visibles</h2>
+        <div data-offers-list></div>
+        <div class="inline-message" data-delete-message hidden>Oferta eliminada.</div>
+      </article>
+
+      <article class="panel-card">
+        <h2>Crear sorteo</h2>
+        <form class="stack-form" data-raffle-form>
+          <label class="field-label">
+            <span>Titulo</span>
+            <input type="text" name="title" placeholder="Ej: Sorteo diario" required />
+          </label>
+          <label class="field-label">
+            <span>Premio</span>
+            <input type="text" name="prize" placeholder="Ej: Auriculares inalambricos" required />
+          </label>
+          <label class="field-label">
+            <span>Cierre</span>
+            <input type="text" name="closing" placeholder="Ej: Hoy 20:00" required />
+          </label>
+          <button class="btn primary" type="submit">Guardar sorteo</button>
+        </form>
+        <div class="inline-message" data-raffle-message hidden>Sorteo guardado y visible en cliente.</div>
+      </article>
+
+      <article class="panel-card">
+        <h2>Sorteo actual</h2>
+        <div class="box" data-raffle-box></div>
+        <div class="stack-form" data-raffles-list style="margin-top:12px;"></div>
+      </article>
+
+      <article class="panel-card panel-card-wide">
+        <h2>Editar bases</h2>
+        <form class="stack-form" data-bases-form>
+          <label class="field-label">
+            <span>Bases del sorteo</span>
+            <textarea name="bases" rows="6" placeholder="Escribi una base por linea" required></textarea>
+          </label>
+          <button class="btn primary" type="submit">Guardar bases</button>
+        </form>
+        <div class="inline-message" data-bases-message hidden>Bases guardadas y visibles en cliente.</div>
+      </article>
+
+      <article class="panel-card panel-card-wide">
+        <h2>Vista previa de bases</h2>
+        <div class="box" data-bases-box></div>
+      </article>
+
+      <article class="panel-card panel-card-wide">
+        <div class="section-head">
+          <h2>Registrados al sorteo</h2>
+          <div class="bar-actions">
+            <button class="btn" type="button" data-export-participants>Exportar datos</button>
+            <button class="btn primary" type="button" data-draw-winner>Sortear</button>
+          </div>
+        </div>
+        <div data-participants-list></div>
+        <div class="inline-message" data-draw-message hidden></div>
+      </article>
+    </section>
+  </main>
+  <script src="panel.js"></script>
+</body>
+</html>

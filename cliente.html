@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow - Cliente</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="head">
+      <div class="top">
+        <div class="brand">
+          <div class="logo">G</div>
+          <div>
+            <h1 class="title">Glow</h1>
+            <p class="sub">Asistente digital</p>
+          </div>
+        </div>
+      </div>
+      <div class="hello">Hola, soy Glow asistente digital. Que te gustaria hacer?</div>
+    </header>
+
+    <section class="actions" id="actions">
+      <button class="btn primary" onclick="showView('ofertas')"><strong>Ver ofertas</strong><span id="offers-summary">2 productos destacados</span></button>
+      <button class="btn" onclick="showView('participar')"><strong>Participar sorteo</strong><span id="raffle-summary">registro del sorteo</span></button>
+      <button class="btn" onclick="showView('bases')"><strong>Bases</strong><span id="bases-summary">condiciones del sorteo</span></button>
+      <button class="btn disabled" type="button" title="Prox version"><strong>Chatear con Glow</strong><span>prox version</span></button>
+    </section>
+
+    <div class="foot">Glow</div>
+  </main>
+  <script src="panel.js"></script>
+</body>
+</html>
