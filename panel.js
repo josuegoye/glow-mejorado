@@ -153,7 +153,7 @@ let currentAppData = null;
 
 async function initData() {
   try {
-    const res = await fetch("http://localhost:3001/api/data");
+    const res = await fetch("/api/data");
     if (res.ok) {
       const json = await res.json();
       if (json.data) {
@@ -190,7 +190,7 @@ function setStoredData(data) {
   currentAppData = JSON.parse(JSON.stringify(syncedData));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(syncedData));
 
-  fetch("http://localhost:3001/api/data", {
+  fetch("/api/data", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
